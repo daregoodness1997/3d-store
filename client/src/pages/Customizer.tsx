@@ -1,7 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useSnapshot } from 'valtio';
+
+import config from '../config/config';
+import state from '../store';
+import { download } from '../assets';
+import { downloadCanvasToImage, reader } from '../config/helpers';
+import { EditorTabs, FilterTabs, DecalTypes } from '../config/constants';
+import { fadeAnimation, slideAnimation } from '../config/motion';
+import { Button, AIPicker, ColorPicker, FilePicker, Tab } from '../components';
 
 const Customizer = () => {
-  return <div>Customizer</div>;
+  const snap = useSnapshot(state);
+  return (
+    <AnimatePresence mode='wait'>
+      {!snap.intro && (
+        <motion.section>
+          <motion.div
+            key='custom'
+            className='absolute top-0 left-0  z-10'
+            {...slideAnimation('left')}
+          >
+            <div className='flex items-center min-h-screen'>
+              <div>Customizer</div>
+            </div>
+          </motion.div>
+        </motion.section>
+      )}
+    </AnimatePresence>
+  );
 };
 
 export default Customizer;

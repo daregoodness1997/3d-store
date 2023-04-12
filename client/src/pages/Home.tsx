@@ -40,7 +40,11 @@ const Home = () => {
                 provide you with a unique shopping experience that celebrates
                 creativity, innovation, and self-expression.
               </p>
-              <Button title={`Customize yours`} />
+              <Button
+                title={`Customize yours`}
+                variant='filled'
+                handleClick={() => (state.intro = false)}
+              />
             </motion.div>
           </motion.div>
         </motion.section>
