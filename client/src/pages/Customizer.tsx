@@ -22,8 +22,30 @@ const Customizer = () => {
             {...slideAnimation('left')}
           >
             <div className='flex items-center min-h-screen'>
-              <div>Customizer</div>
+              <div className='editortabs-container tabs'>
+                {EditorTabs.map(tab => (
+                  <Tab key={tab.name} tab={tab} handleClick={() => {}} />
+                ))}
+              </div>
             </div>
+          </motion.div>
+          <motion.div
+            className='absolute top-10 right-10'
+            {...slideAnimation('down')}
+          >
+            <Button
+              title='Go Back'
+              variant='filled'
+              handleClick={() => (state.intro = true)}
+            />
+          </motion.div>
+          <motion.div
+            className='filtertabs-container'
+            {...slideAnimation('up')}
+          >
+            {FilterTabs.map(tab => (
+              <Tab key={tab.name} tab={tab} handleClick={() => {}} />
+            ))}
           </motion.div>
         </motion.section>
       )}

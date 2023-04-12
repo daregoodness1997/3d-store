@@ -44,6 +44,7 @@ const Home = () => {
                 title={`Customize yours`}
                 variant='filled'
                 handleClick={() => (state.intro = false)}
+                className='px-4 py-2.5'
               />
             </motion.div>
           </motion.div>

@@ -1,6 +1,18 @@
 import React from 'react';
 
-const Tab = () => {
+interface TabProps {
+  tab: {};
+  handleClick?: (e?: React.SyntheticEvent) => void;
+  isFilterTab?: boolean;
+  isActiveTab?: boolean;
+}
+
+const Tab: React.FC<TabProps> = ({
+  tab,
+  handleClick,
+  isFilterTab,
+  isActiveTab,
+}) => {
   return <div>Tab</div>;
 };
 
