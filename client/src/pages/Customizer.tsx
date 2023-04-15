@@ -12,6 +12,12 @@ import { Button, AIPicker, ColorPicker, FilePicker, Tab } from '../components';
 
 const Customizer = () => {
   const snap = useSnapshot(state);
+  const [file, setFile] = useState<string>('');
+  const [prompt, setPrompt] = useState<string>('');
+  const [generatingImage, setGeneratingImage] = useState<boolean>(false);
+
+  // generate Tab Content
+  const generateTabContent = () => {};
   return (
     <AnimatePresence mode='wait'>
       {!snap.intro && (
@@ -44,7 +50,12 @@ const Customizer = () => {
             {...slideAnimation('up')}
           >
             {FilterTabs.map(tab => (
-              <Tab key={tab.name} tab={tab} handleClick={() => {}} />
+              <Tab
+                key={tab.name}
+                tab={tab}
+                handleClick={() => {}}
+                isFilterTab
+              />
             ))}
           </motion.div>
         </motion.section>
