@@ -28,7 +28,7 @@ const Button: React.FC<ButtonProps> = ({
     <button
       className={`w-fit ${
         className ? className : 'px-2 py-1.5'
-      }  font-bold text-sm rounded-md `}
+      }  font-bold text-sm rounded-md px-2 py-1.5`}
       onClick={handleClick}
       style={generateStyles(variant)}
       {...props}

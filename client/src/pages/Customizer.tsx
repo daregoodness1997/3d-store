@@ -10,14 +10,76 @@ import { EditorTabs, FilterTabs, DecalTypes } from '../config/constants';
 import { fadeAnimation, slideAnimation } from '../config/motion';
 import { Button, AIPicker, ColorPicker, FilePicker, Tab } from '../components';
 
+type FilterType = {
+  logoShirt: boolean;
+  stylistShirt: boolean;
+};
+
+type FileType = 'logo-texture' | 'full-texture';
+
+export type EditorTabs =
+  | 'colorpicker'
+  | 'filepicker'
+  | 'aipicker'
+  | string
+  | null;
+
 const Customizer = () => {
   const snap = useSnapshot(state);
-  const [file, setFile] = useState<string>('');
+  const [file, setFile] = useState<File>();
   const [prompt, setPrompt] = useState<string>('');
+  const [activeEditorTab, setActiveEditorTab] = useState<EditorTabs>(null);
+  const [activeFilterTab, setActiveFilterTab] = useState<FilterType>({
+    logoShirt: true,
+    stylistShirt: false,
+  });
   const [generatingImage, setGeneratingImage] = useState<boolean>(false);
 
+  const handleActiveFilterTab = (tabName: FileType) => {
+    switch (tabName) {
+      case 'logo-texture':
+        state.isLogoTexture = !activeFilterTab[tabName];
+        break;
+      case 'full-texture':
+        state.isFullTexture = !activeFilterTab[tabName];
+
+        break;
+
+      default:
+        state.isFullTexture = true;
+        state.isLogoTexture = false;
+    }
+  };
+
+  // Handle decal func
+  const handleDecals = (type: FileType, result: unknown) => {
+    const decalType = DecalTypes[type];
+    state[decalType.stateProperty] = result;
+
+    if (activeFilterTab[decalType.filterTab]) {
+      handleActiveFilterTab(decalType.filterTab);
+    }
+  };
+  // read user file
+  const readFile = (type: FileType) => {
+    reader(file).then(result => {
+      handleDecals(type, result);
+      setActiveEditorTab('');
+    });
+  };
   // generate Tab Content
-  const generateTabContent = () => {};
+  const generateTabContent = () => {
+    switch (activeEditorTab) {
+      case 'colorpicker':
+        return <ColorPicker />;
+      case 'filepicker':
+        return <FilePicker file={file} setFile={setFile} readFile={readFile} />;
+      case 'aipicker':
+        return <AIPicker />;
+      default:
+        return null;
+    }
+  };
   return (
     <AnimatePresence mode='wait'>
       {!snap.intro && (
@@ -30,8 +92,13 @@ const Customizer = () => {
             <div className='flex items-center min-h-screen'>
               <div className='editortabs-container tabs'>
                 {EditorTabs.map(tab => (
-                  <Tab key={tab.name} tab={tab} handleClick={() => {}} />
+                  <Tab
+                    key={tab.name}
+                    tab={tab}
+                    handleClick={() => setActiveEditorTab(tab.name)}
+                  />
                 ))}
+                {generateTabContent()}
               </div>
             </div>
           </motion.div>
