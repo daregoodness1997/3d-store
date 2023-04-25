@@ -27,23 +27,23 @@ const AIPicker: React.FC<Props> = ({
           <Button
             title='Asking AI...'
             variant='outlined'
-            className='w-full text-xs'
+            className='w-full text-xs font-normal'
           />
         ) : (
-          <>
+          <div className='flex flex-wrap justify-end gap-2 w-full'>
             <Button
               title='AI Logo'
               variant='outlined'
-              className='w-full text-xs'
+              className='text-xs font-normal'
               handleClick={() => handleSubmit('logo')}
             />
             <Button
-              title='AI Logo'
-              variant='outlined'
-              className='w-full text-xs'
-              handleClick={() => handleSubmit('logo')}
+              title='AI Full'
+              variant='filled'
+              className='text-xs font-normal'
+              handleClick={() => handleSubmit('full')}
             />
-          </>
+          </div>
         )}
       </div>
     </div>
