@@ -20,9 +20,10 @@ const Shirt = () => {
   const logoTexture = useTexture(snap.logoDecal);
   const fullTexture = useTexture(snap.fullDecal);
 
-  const color: HexColorString = `#${snap.color}`;
+  const color: HexColorString | string = `${snap.color}`;
 
   useFrame((state, delta) =>
+    // @ts-ignore
     easing.dampC(materials.lambert1.color, color, 0.25, delta)
   );
 
