@@ -75,7 +75,18 @@ const Customizer = () => {
     });
   };
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    if (!prompt) alert('Please enter a prompt');
+    try {
+      setGeneratingImage(true);
+    } catch (err) {
+      setGeneratingImage(true);
+      alert(`Something went wrong ${err.message}`);
+    } finally {
+      setGeneratingImage(false);
+      setActiveEditorTab('');
+    }
+  };
 
   // generate Tab Content
   const generateTabContent = () => {
