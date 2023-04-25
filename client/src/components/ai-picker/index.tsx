@@ -1,6 +1,18 @@
 import React from 'react';
 
-const AIPicker = () => {
+interface Props {
+  prompt: string;
+  setPrompt: (value?: string) => void;
+  generatingImage: boolean;
+  handleSubmit: (value?: any) => void;
+}
+
+const AIPicker: React.FC<Props> = ({
+  prompt,
+  setPrompt,
+  generatingImage,
+  handleSubmit,
+}) => {
   return <div>AIPicker</div>;
 };
 

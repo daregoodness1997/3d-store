@@ -18,7 +18,7 @@ const Tab: React.FC<TabProps> = ({
   const snap = useSnapshot(state);
   const activeStyles =
     isFilterTab && isActiveTab
-      ? { backgroundColor: snap.defaultColor, opacity: 0.5 }
+      ? { backgroundColor: snap.color, opacity: 0.5 }
       : { backgroundColor: 'transparent', opacity: 1 };
   return (
     <div

@@ -1,6 +1,7 @@
 import React, { ButtonHTMLAttributes } from 'react';
 import { useSnapshot } from 'valtio';
 import state from '../../store';
+import { getContrastingColor } from '../../config/helpers';
 
 type VariantType = 'filled' | 'outlined';
 
@@ -21,7 +22,13 @@ const Button: React.FC<ButtonProps> = ({
   const snap = useSnapshot(state);
   const generateStyles = (variant: VariantType) => {
     if (variant === 'filled') {
-      return { background: snap.defaultColor, color: '#fff' };
+      return {
+        background: snap.color,
+        color: getContrastingColor(snap.color),
+      };
+    }
+    if (variant === 'outlined') {
+      return { border: `1px solid ${snap.color}`, color: snap.color };
     }
   };
   return (

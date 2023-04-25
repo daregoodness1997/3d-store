@@ -34,25 +34,32 @@ const Customizer = () => {
     stylistShirt: false,
   });
   const [generatingImage, setGeneratingImage] = useState<boolean>(false);
+  const [preview, setPreview] = useState<string | ArrayBuffer>('');
 
-  const handleActiveFilterTab = (tabName: FileType) => {
+  const handleActiveFilterTab = tabName => {
     switch (tabName) {
-      case 'logo-texture':
+      case 'logoShirt':
         state.isLogoTexture = !activeFilterTab[tabName];
         break;
-      case 'full-texture':
+      case 'stylishShirt':
         state.isFullTexture = !activeFilterTab[tabName];
-
         break;
 
       default:
         state.isFullTexture = true;
         state.isLogoTexture = false;
     }
+
+    setActiveFilterTab(prevState => {
+      return {
+        ...prevState,
+        [tabName]: !prevState[tabName],
+      };
+    });
   };
 
   // Handle decal func
-  const handleDecals = (type: FileType, result: unknown) => {
+  const handleDecals = (type: any, result: unknown) => {
     const decalType = DecalTypes[type];
     state[decalType.stateProperty] = result;
 
@@ -61,25 +68,44 @@ const Customizer = () => {
     }
   };
   // read user file
-  const readFile = (type: FileType) => {
+  const readFile = (type: any) => {
     reader(file).then(result => {
       handleDecals(type, result);
       setActiveEditorTab('');
     });
   };
+
+  const handleSubmit = async () => {};
+
   // generate Tab Content
   const generateTabContent = () => {
     switch (activeEditorTab) {
       case 'colorpicker':
         return <ColorPicker />;
       case 'filepicker':
-        return <FilePicker file={file} setFile={setFile} readFile={readFile} />;
+        return (
+          <FilePicker
+            file={file}
+            setFile={setFile}
+            readFile={readFile}
+            preview={preview}
+            setPreview={setPreview}
+          />
+        );
       case 'aipicker':
-        return <AIPicker />;
+        return (
+          <AIPicker
+            prompt={prompt}
+            setPrompt={setPrompt}
+            generatingImage={generatingImage}
+            handleSubmit={handleSubmit}
+          />
+        );
       default:
         return null;
     }
   };
+
   return (
     <AnimatePresence mode='wait'>
       {!snap.intro && (
@@ -120,8 +146,9 @@ const Customizer = () => {
               <Tab
                 key={tab.name}
                 tab={tab}
-                handleClick={() => {}}
+                handleClick={() => handleActiveFilterTab(tab.name)}
                 isFilterTab
+                isActiveTab={activeFilterTab[tab.name]}
               />
             ))}
           </motion.div>
